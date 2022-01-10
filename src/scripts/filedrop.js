@@ -10,6 +10,7 @@ document.addEventListener('drop', (event) => {
     console.log(files)
     axios_post('http://localhost:8060' + '/add', files, respText => {
         console.log(respText.data)
+        generateList(respText.data)
     }, error => {
         console.log(error)
     })
@@ -28,24 +29,37 @@ document.addEventListener('dragleave', (event) => {
     console.log('File has left the Drop Space');
 });
 
-function httpGetAsync(theUrl, method, data, callback) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open(method, theUrl, true); // true for asynchronous 
-    xmlHttp.send(JSON.stringify(data));
-}
+// function httpGetAsync(theUrl, method, data, callback) {
+//     var xmlHttp = new XMLHttpRequest();
+//     xmlHttp.onreadystatechange = function () {
+//         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+//             callback(xmlHttp.responseText);
+//     }
+//     xmlHttp.open(method, theUrl, true); // true for asynchronous 
+//     xmlHttp.send(JSON.stringify(data));
+// }
 
 function axios_post(theUrl, data, scallback, ecallback) {
     axios.post(theUrl, data)
         .then(function (response) {
-            console.log(response);
             scallback(response)
         })
         .catch(function (error) {
-            console.log(error);
             ecallback(error)
         });
+}
+
+function generateList(array) {
+    var listDiv = document.getElementById("fileList")
+    listDiv.innerHTML = ""
+    listDiv.innerText = ""
+    let ul = document.createElement('ul')
+    array.forEach(path => {
+        let li = document.createElement('li')
+        let span = document.createElement('span')
+        span.innerText = path.split("\\")[path.split("\\").length - 1]
+        li.appendChild(span)
+        ul.appendChild(li)
+    });
+    listDiv.appendChild(ul)
 }

@@ -12,7 +12,7 @@ function generateList(array) {
     array.forEach(path => {
         let li = document.createElement('li')
         let a = document.createElement('a')
-        a.innerText = path.split("//")[path.split("//").length - 1]
+        a.innerText = path.split("\\")[path.split("\\").length - 1]
         a.href = window.origin + '/download?file=' + path
         li.appendChild(a)
         ul.appendChild(li)

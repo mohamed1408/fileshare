@@ -29,7 +29,6 @@ app.get('/files', function (req, res) {
 });
 
 _app.post('/add', function (req, res) {
-    console.log(req.body)
     req.body.forEach(_path => {
         if (!fs.lstatSync(_path).isDirectory() && !hostedFiles.some(x => x == _path)) {
             hostedFiles.push(_path)
