@@ -12,8 +12,14 @@ function generateList(array) {
     array.forEach(path => {
         let li = document.createElement('li')
         let a = document.createElement('a')
-        a.innerText = path.split("\\")[path.split("\\").length - 1]
+        let img = document.createElement('img')
+        let filename = path.split("\\").pop()
+        let extension = filename.split('.').pop()
+        console.log(path, filename)
+        a.innerText = filename
         a.href = window.origin + '/download?file=' + path
+        img.src = "/assets/icons/" + (file_icons[extension] ? file_icons[extension] : file_icons["file"])
+        li.appendChild(img)
         li.appendChild(a)
         ul.appendChild(li)
     });
@@ -22,6 +28,7 @@ function generateList(array) {
 
 function axios_get(theUrl, scallback, ecallback) {
     try {
+        console.log(file_icons)
         axios.get(theUrl)
             .then(function (response) {
                 // console.log(response);
